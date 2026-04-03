@@ -1,0 +1,127 @@
+<div class="container">
+  <!-- Error State -->
+  <div *ngIf="error && !loading" class="error-container">
+    <div class="error-icon">⚠️</div>
+    <h2 class="error-title">Oops! Something went wrong</h2>
+    <p class="error-message">{{ error }}</p>
+    <button class="btn back-btn" (click)="goBack()">← Go Back</button>
+  </div>
+
+  <!-- Country Details -->
+  <div *ngIf="country && !loading" class="country-detail">
+    <!-- Header Section -->
+    <div class="country-header">
+      <div class="flag-container">
+        <img
+          [src]="country.flags.png"
+          [alt]="country.name.common + ' flag'"
+          class="country-flag"
+        />
+      </div>
+      <div class="country-title">
+        <h1 class="country-name">{{ country.name.common }}</h1>
+        <p class="country-official">{{ country.name.official }}</p>
+      </div>
+    </div>
+
+    <!-- Basic Information -->
+    <div class="info-section">
+      <h2 class="section-title">📍 Basic Information</h2>
+      <div class="info-grid">
+        <div class="info-card">
+          <div class="info-icon">🏛️</div>
+          <div class="info-content">
+            <h3>Capital</h3>
+            <p>{{ country.capital?.[0] || 'N/A' }}</p>
+          </div>
+        </div>
+
+        <div class="info-card">
+          <div class="info-icon">👥</div>
+          <div class="info-content">
+            <h3>Population</h3>
+            <p>{{ country.population | number }}</p>
+          </div>
+        </div>
+
+        <div class="info-card">
+          <div class="info-icon">🌍</div>
+          <div class="info-content">
+            <h3>Region</h3>
+            <p>{{ country.region }}</p>
+          </div>
+        </div>
+
+        <div class="info-card">
+          <div class="info-icon">💰</div>
+          <div class="info-content">
+            <h3>Currency</h3>
+            <p *ngIf="country.currencies; else noCurrency">
+              <span *ngFor="let key of getCurrencyKeys(country.currencies); let last = last">
+                {{ country.currencies[key].name }} ({{ key }})
+                <span *ngIf="!last">, </span>
+              </span>
+            </p>
+            <ng-template #noCurrency>
+              <p>N/A</p>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Weather Section -->
+    <div class="weather-section" *ngIf="weather && weather.main">
+      <h2 class="section-title">🌤️ Current Weather</h2>
+      <div class="weather-card">
+        <div class="weather-main">
+          <div class="weather-icon">
+            <img
+              [src]="'https://openweathermap.org/img/wn/' + weather.weather[0].icon + '@2x.png'"
+              [alt]="weather.weather[0].description"
+              class="weather-img"
+            />
+          </div>
+          <div class="weather-info">
+            <div class="temperature">{{ weather.main.temp | number:'1.0-0' }}°C</div>
+            <div class="condition">{{ weather.weather[0].description | titlecase }}</div>
+            <div class="feels-like">Feels like {{ weather.main.feels_like | number:'1.0-0' }}°C</div>
+          </div>
+        </div>
+
+        <div class="weather-details">
+          <div class="weather-detail">
+            <span class="detail-label">Humidity</span>
+            <span class="detail-value">{{ weather.main.humidity }}%</span>
+          </div>
+          <div class="weather-detail">
+            <span class="detail-label">Wind Speed</span>
+            <span class="detail-value">{{ weather.wind.speed }} m/s</span>
+          </div>
+          <div class="weather-detail">
+            <span class="detail-label">Pressure</span>
+            <span class="detail-value">{{ weather.main.pressure }} hPa</span>
+          </div>
+          <div class="weather-detail">
+            <span class="detail-label">Visibility</span>
+            <span class="detail-value">{{ (weather.visibility / 1000) | number:'1.0-0' }} km</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Weather Loading/Error -->
+    <div class="weather-section" *ngIf="!weather && !loading">
+      <h2 class="section-title">🌤️ Weather Information</h2>
+      <div class="weather-error">
+        <div class="weather-error-icon">🌧️</div>
+        <p>Weather data not available for this country</p>
+      </div>
+    </div>
+
+    <!-- Back Button -->
+    <div class="actions">
+      <button class="btn back-btn" (click)="goBack()">← Back to Countries</button>
+    </div>
+  </div>
+</div>
