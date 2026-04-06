@@ -1,0 +1,81 @@
+<div class="container">
+  <header class="header">
+    <h1 class="title">My Favorite Countries</h1>
+    <p class="subtitle">Your saved countries with weather information</p>
+    <nav class="nav-links">
+      <a routerLink="/" class="nav-link">← Back to Countries</a>
+    </nav>
+  </header>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-container">
+    <div class="loading-spinner"></div>
+    <p class="loading-text">Loading your favorites...</p>
+    <p style="color: #666; font-size: 0.9rem; margin-top: 10px;">Loaded countries: {{ allCountries.length }}</p>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error && !loading" class="error-container">
+    <div class="error-icon">⚠️</div>
+    <h2 class="error-title">Oops! Something went wrong</h2>
+    <p class="error-message">{{ error }}</p>
+  </div>
+
+  <!-- Empty State -->
+  <div *ngIf="!loading && !error && favoriteCountries.length === 0" class="empty-state">
+    <div class="empty-icon">❤️</div>
+    <h2 class="empty-title">No favorites yet</h2>
+    <p class="empty-message">Start exploring countries and add them to your favorites!</p>
+    <a routerLink="/" class="btn back-btn">Explore Countries</a>
+  </div>
+
+  <!-- Favorites Grid -->
+  <div class="countries-grid" *ngIf="!loading && !error && favoriteCountries.length > 0">
+    <div
+      class="country-card card"
+      *ngFor="let country of favoriteCountries; trackBy: trackByCountry"
+    >
+      <div class="card-header">
+        <img
+          [src]="country.flags.png"
+          [alt]="country.name.common + ' flag'"
+          class="flag-image"
+          loading="lazy"
+        />
+        <div class="country-info">
+          <h3 class="country-name">{{ country.name.common }}</h3>
+          <span class="country-region">{{ country.region }}</span>
+        </div>
+        <button
+          class="remove-favorite-btn"
+          (click)="removeFromFavorites(country.name.common)"
+          title="Remove from favorites"
+        >
+          ❌
+        </button>
+      </div>
+
+      <div class="card-body">
+        <div class="country-details">
+          <div class="detail-item">
+            <span class="detail-label">Capital:</span>
+            <span class="detail-value">{{ country.capital?.[0] || 'N/A' }}</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Population:</span>
+            <span class="detail-value">{{ country.population | number }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-footer">
+        <button
+          class="btn view-details-btn"
+          [routerLink]="['/details', country.name.common]"
+        >
+          View Details 🌤️
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

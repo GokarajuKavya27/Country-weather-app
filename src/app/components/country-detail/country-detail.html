@@ -26,7 +26,7 @@
 
     <!-- Basic Information -->
     <div class="info-section">
-      <h2 class="section-title">📍 Basic Information</h2>
+      <h2 class="section-title">Basic Information</h2>
       <div class="info-grid">
         <div class="info-card">
           <div class="info-icon">🏛️</div>
@@ -53,7 +53,7 @@
         </div>
 
         <div class="info-card">
-          <div class="info-icon">💰</div>
+          <div class="info-icon">💱</div>
           <div class="info-content">
             <h3>Currency</h3>
             <p *ngIf="country.currencies; else noCurrency">
@@ -72,7 +72,7 @@
 
     <!-- Weather Section -->
     <div class="weather-section" *ngIf="weather && weather.main">
-      <h2 class="section-title">🌤️ Current Weather</h2>
+      <h2 class="section-title">Weather</h2>
       <div class="weather-card">
         <div class="weather-main">
           <div class="weather-icon">
@@ -119,9 +119,5 @@
       </div>
     </div>
 
-    <!-- Back Button -->
-    <div class="actions">
-      <button class="btn back-btn" (click)="goBack()">← Back to Countries</button>
-    </div>
   </div>
 </div>

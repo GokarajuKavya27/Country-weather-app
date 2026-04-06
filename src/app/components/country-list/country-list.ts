@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { ApiService } from '../../services/api';
+import { FavoritesService } from '../../services/favorites';
 
 @Component({
   selector: 'app-country-list',
@@ -18,7 +19,7 @@ export class CountryListComponent implements OnInit {
   loading: boolean = true;
   error: string = '';
 
-  constructor(private api: ApiService, private router: Router) {}
+  constructor(private api: ApiService, private router: Router, private favoritesService: FavoritesService) {}
 
   ngOnInit(): void {
     this.api.getCountries().subscribe({
@@ -44,6 +45,15 @@ export class CountryListComponent implements OnInit {
 
   trackByCountry(index: number, country: any): string {
     return country.name.common;
+  }
+
+  isFavorite(countryName: string): boolean {
+    return this.favoritesService.isFavorite(countryName);
+  }
+
+  toggleFavorite(country: any, event: Event): void {
+    event.stopPropagation(); // Prevent navigation when clicking favorite button
+    this.favoritesService.toggleFavorite(country.name.common);
   }
 
   goToDetails() {

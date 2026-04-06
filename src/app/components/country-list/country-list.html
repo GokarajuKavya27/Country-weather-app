@@ -1,7 +1,9 @@
 <div class="container">
   <header class="header">
-    <h1 class="title">🌍 Country Explorer</h1>
-    <p class="subtitle">Discover countries around the world with weather information</p>
+    <h1 class="title">Weather Applet</h1>
+    <nav class="nav-links">
+      <a routerLink="/favorites" class="nav-link">❤️ My Favorites</a>
+    </nav>
   </header>
 
   <div class="search-section">
@@ -10,7 +12,7 @@
         class="input-field"
         [(ngModel)]="searchText"
         (keyup.enter)="goToDetails()"
-        placeholder="🔍 Search for a country..."
+        placeholder="Enter country name"
         type="text"
       />
       <button class="btn search-btn" (click)="goToDetails()">
@@ -41,6 +43,13 @@
           <h3 class="country-name">{{ country.name.common }}</h3>
           <span class="country-region">{{ country.region }}</span>
         </div>
+        <button
+          class="favorite-btn"
+          (click)="toggleFavorite(country, $event)"
+          [class.favorited]="isFavorite(country.name.common)"
+        >
+          {{ isFavorite(country.name.common) ? '❤️' : '🤍' }}
+        </button>
       </div>
 
       <div class="card-body">
